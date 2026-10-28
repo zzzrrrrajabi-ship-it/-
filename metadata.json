@@ -1,0 +1,6 @@
+{
+  "name": "ریحان | اپلیکیشن تخصصی حافظان قرآن",
+  "description": "معماری کامل، شماتیک دیتابیس و پروتوتایپ پیشرفته چندسکویی ریحان؛ شامل ماژول آیات متشابه، مچینگ همبحث، آکادمی هوشمند و آزمون‌ها",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

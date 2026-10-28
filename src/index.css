@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-quran: 'Scheherazade New', 'Amiri Quran', serif;
+  }
+  
+  body {
+    font-family: var(--font-sans);
+  }
+}
+
+/* Custom font utilities */
+.font-quran {
+  font-family: 'Scheherazade New', 'Amiri Quran', serif;
+}
+
+.font-amiri {
+  font-family: 'Amiri Quran', serif;
+}
+
+.font-vazir {
+  font-family: 'Vazirmatn', sans-serif;
+}
+
+/* Quran Reading Themes */
+.theme-day {
+  --bg-page: #F8F9F6;
+  --bg-surface: #FFFFFF;
+  --bg-card: #F3F5F0;
+  --text-primary: #1C2B22;
+  --text-secondary: #52665A;
+  --border-subtle: #E1E8DF;
+  --accent-primary: #2D6A4F;
+  --accent-gold: #C9A227;
+}
+
+.theme-parchment {
+  --bg-page: #F5EFEB;
+  --bg-surface: #FCFAF6;
+  --bg-card: #ECE4D9;
+  --text-primary: #34281D;
+  --text-secondary: #6B5B4D;
+  --border-subtle: #DECDBA;
+  --accent-primary: #2C5E43;
+  --accent-gold: #B38622;
+}
+
+.theme-basil {
+  --bg-page: #EBF3ED;
+  --bg-surface: #F3F8F4;
+  --bg-card: #DEEDE2;
+  --text-primary: #113422;
+  --text-secondary: #3D644E;
+  --border-subtle: #CBE0D1;
+  --accent-primary: #1F5F3E;
+  --accent-gold: #9B7811;
+}
+
+.theme-night {
+  --bg-page: #0C1511;
+  --bg-surface: #141F1A;
+  --bg-card: #1B2923;
+  --text-primary: #E2ECE5;
+  --text-secondary: #8EAA97;
+  --border-subtle: #24382E;
+  --accent-primary: #40916C;
+  --accent-gold: #E5C358;
+}
+
+/* Subtle modern Islamic arabesque pattern overlay */
+.arabesque-pattern {
+  background-image: radial-gradient(rgba(45, 106, 79, 0.05) 1px, transparent 1px), radial-gradient(rgba(45, 106, 79, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+}
+
+.arabesque-pattern-dark {
+  background-image: radial-gradient(rgba(82, 183, 136, 0.08) 1px, transparent 1px), radial-gradient(rgba(82, 183, 136, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(45, 106, 79, 0.2);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(45, 106, 79, 0.4);
+}
