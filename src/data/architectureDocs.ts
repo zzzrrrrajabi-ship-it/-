@@ -255,12 +255,197 @@ export class ReyhanPartnerMatcher {
    * تولید شناسه نشست امن و توکن اتصال WebRTC LiveKit
    */
   static async allocateSecureRoom(userAId: string, userBId: string, juz: number): Promise<{ roomId: string; liveKitToken: string }> {
-    const roomId = \`reyhan_room_\${juz}j_\${Date.now()}_\${Math.random().toString(36).substring(7)}\`;
+    const roomId = 'reyhan_room_' + juz + 'j_' + Date.now();
     // در پروداکشن، LiveKit AccessToken با مجوز ویدئو/صوت در Edge Function صادر می‌شود
     return {
       roomId,
-      liveKitToken: \`jwt_livekit_mock_token_for_\${roomId}\`
+      liveKitToken: 'jwt_livekit_mock_token_for_' + roomId
     };
+  }
+}`,
+  flutterPubspecYaml: `name: reyhan_quran_app
+description: "ریحان | سوپراپلیکیشن چندسکویی حافظان قرآن کریم"
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.3.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  google_fonts: ^6.2.1
+  just_audio: ^0.9.36
+  fl_chart: ^0.68.0
+  supabase_flutter: ^2.5.6
+  flutter_webrtc: ^0.10.8
+  lucide_icons: ^0.257.0
+  provider: ^6.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true`,
+  flutterMainDart: `// ========================================================
+// فایل اصلی اپلیکیشن فلاتر ریحان (lib/main.dart)
+// قابل اجرا با دستور: flutter run
+// ========================================================
+
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const ReyhanApp());
+}
+
+class ReyhanApp extends StatefulWidget {
+  const ReyhanApp({super.key});
+
+  @override
+  State<ReyhanApp> createState() => _ReyhanAppState();
+}
+
+class _ReyhanAppState extends State<ReyhanApp> {
+  int _currentThemeIndex = 0; // 0: ریحان (Basil), 1: کاغذ سنتی, 2: روز, 3: شب
+  int _activeNavIndex = 0;
+
+  // پالت رنگی ۴ گانه معنوی ریحان
+  final List<ThemeData> _themes = [
+    // تم ۱: سبز ریحان آرامش‌بخش
+    ThemeData(
+      brightness: Brightness.light,
+      scaffoldBackgroundColor: const Color(0xFFEBF3ED),
+      primaryColor: const Color(0xFF2D6A4F),
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: const Color(0xFF2D6A4F),
+        primary: const Color(0xFF2D6A4F),
+        secondary: const Color(0xFF52B788),
+        surface: const Color(0xFFF3F8F4),
+      ),
+      fontFamily: 'Vazirmatn',
+    ),
+    // تم ۲: کاغذ سنتی (Parchment)
+    ThemeData(
+      brightness: Brightness.light,
+      scaffoldBackgroundColor: const Color(0xFFF5EFEB),
+      primaryColor: const Color(0xFF2C5E43),
+      colorScheme: ColorScheme.fromSeed(
+        seedColor: const Color(0xFF2C5E43),
+        surface: const Color(0xFFFCFAF6),
+      ),
+      fontFamily: 'Vazirmatn',
+    ),
+    // تم ۳: روشنایی روز
+    ThemeData(
+      brightness: Brightness.light,
+      scaffoldBackgroundColor: const Color(0xFFF8F9F6),
+      primaryColor: const Color(0xFF1B4332),
+      colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF1B4332)),
+      fontFamily: 'Vazirmatn',
+    ),
+    // تم ۴: حالت شب OLED
+    ThemeData(
+      brightness: Brightness.dark,
+      scaffoldBackgroundColor: const Color(0xFF0C1511),
+      primaryColor: const Color(0xFF52B788),
+      colorScheme: ColorScheme.fromSeed(
+        brightness: Brightness.dark,
+        seedColor: const Color(0xFF40916C),
+        surface: const Color(0xFF141F1A),
+      ),
+      fontFamily: 'Vazirmatn',
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'ریحان | حافظان قرآن',
+      debugShowCheckedModeBanner: false,
+      theme: _themes[_currentThemeIndex],
+      locale: const Locale('fa', 'IR'),
+      supportedLocales: const [Locale('fa', 'IR'), Locale('ar', 'SA')],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      home: Directionality(
+        textDirection: TextDirection.rtl,
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).colorScheme.surface,
+            elevation: 0,
+            title: Row(
+              children: [
+                Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF2D6A4F),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Icon(Icons.eco, color: Colors.white, size: 20),
+                ),
+                const SizedBox(width: 8),
+                const Text(
+                  'ریحان',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+              ],
+            ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.palette_outlined),
+                tooltip: 'تغییر تم معنوی',
+                onPressed: () {
+                  setState(() {
+                    _currentThemeIndex = (_currentThemeIndex + 1) % _themes.length;
+                  });
+                },
+              ),
+            ],
+          ),
+          body: _buildActiveScreen(_activeNavIndex),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _activeNavIndex,
+            onTap: (index) => setState(() => _activeNavIndex = index),
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: const Color(0xFF2D6A4F),
+            unselectedItemColor: Colors.grey,
+            items: const [
+              BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'مصحف'),
+              BottomNavigationBarItem(icon: Icon(Icons.auto_awesome), label: 'متشابهات'),
+              BottomNavigationBarItem(icon: Icon(Icons.group), label: 'همبحث'),
+              BottomNavigationBarItem(icon: Icon(Icons.show_chart), label: 'نمودار تثبیت'),
+              BottomNavigationBarItem(icon: Icon(Icons.view_carousel), label: 'لایتنر'),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildActiveScreen(int index) {
+    switch (index) {
+      case 0:
+        return const Center(child: Text('مصحف عثمان‌طه و پلیر تکرار هوشمند'));
+      case 1:
+        return const Center(child: Text('شبکه متشابهات با کد رنگی و کلیدهای حافظه'));
+      case 2:
+        return const Center(child: Text('رادار مچینگ همبحث و اتاق WebRTC'));
+      case 3:
+        return const Center(child: Text('نمودار تحلیلی نرخ تثبیت و ردیابی ضعف‌ها'));
+      default:
+        return const Center(child: Text('جعبه لایتنر ۵ خانه و گیمیفیکیشن ریحان'));
+    }
   }
 }`
 };

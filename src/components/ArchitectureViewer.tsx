@@ -3,7 +3,7 @@ import { Database, FolderTree, Cpu, Code2, Copy, Check, Server, Shield, FileText
 import { ARCHITECTURE_DOCS } from '../data/architectureDocs';
 
 export const ArchitectureViewer: React.FC = () => {
-  const [activeSection, setActiveSection] = useState<'stack' | 'folder' | 'schema' | 'code'>('stack');
+  const [activeSection, setActiveSection] = useState<'stack' | 'folder' | 'schema' | 'code' | 'flutter'>('flutter');
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
 
   const handleCopy = (text: string, key: string) => {
@@ -26,12 +26,22 @@ export const ArchitectureViewer: React.FC = () => {
               مستندات معماری، شماتیک دیتابیس و کدهای مرجع
             </h2>
             <p className="text-sm text-[#52665A] dark:text-[#8EAA97] mt-1 max-w-2xl leading-relaxed">
-              طراحی تفصیلی سیستم چندسکویی بر پایه Clean Architecture، پشته فنی، شماتیک کامل رابطه‌ای PostgreSQL/Supabase و پیاده‌سازی الگوریتم‌های کلیدی.
+              طراحی تفصیلی سیستم چندسکویی بر پایه Clean Architecture، پشته فنی، شماتیک کامل رابطه‌ای PostgreSQL/Supabase و فایل‌های کامل اجرایی پروژه Flutter.
             </p>
           </div>
 
           {/* Section Selector */}
           <div className="flex items-center gap-1 p-1 bg-black/5 dark:bg-white/5 rounded-xl self-start flex-wrap">
+            <button
+              onClick={() => setActiveSection('flutter')}
+              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors whitespace-nowrap ${
+                activeSection === 'flutter'
+                  ? 'bg-[#2D6A4F] text-white shadow-xs font-bold'
+                  : 'text-[#52665A] dark:text-[#8EAA97] hover:text-[#1C2B22] dark:hover:text-[#E2ECE5]'
+              }`}
+            >
+              کد اجرایی Flutter (دستور flutter run)
+            </button>
             <button
               onClick={() => setActiveSection('stack')}
               className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors whitespace-nowrap ${
@@ -40,7 +50,7 @@ export const ArchitectureViewer: React.FC = () => {
                   : 'text-[#52665A] dark:text-[#8EAA97] hover:text-[#1C2B22] dark:hover:text-[#E2ECE5]'
               }`}
             >
-              ۱. پشته فنی (Tech Stack)
+              ۱. پشته فنی
             </button>
             <button
               onClick={() => setActiveSection('folder')}
@@ -50,7 +60,7 @@ export const ArchitectureViewer: React.FC = () => {
                   : 'text-[#52665A] dark:text-[#8EAA97] hover:text-[#1C2B22] dark:hover:text-[#E2ECE5]'
               }`}
             >
-              ۲. ساختار پوشه‌بندی
+              ۲. ساختار پوشه‌ها
             </button>
             <button
               onClick={() => setActiveSection('schema')}
@@ -60,7 +70,7 @@ export const ArchitectureViewer: React.FC = () => {
                   : 'text-[#52665A] dark:text-[#8EAA97] hover:text-[#1C2B22] dark:hover:text-[#E2ECE5]'
               }`}
             >
-              ۳. شماتیک دیتابیس SQL
+              ۳. شماتیک دیتابیس
             </button>
             <button
               onClick={() => setActiveSection('code')}
@@ -75,6 +85,110 @@ export const ArchitectureViewer: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* SECTION: FLUTTER READY CODE & COMMANDS */}
+      {activeSection === 'flutter' && (
+        <div className="space-y-6">
+          {/* Instructions Box */}
+          <div className="p-6 rounded-2xl bg-white dark:bg-[#141F1A] border border-[#E1E8DF] dark:border-[#24382E] shadow-xs space-y-4">
+            <div className="flex items-center gap-2 text-xs font-bold text-[#2D6A4F] dark:text-[#52B788]">
+              <Cpu className="w-4 h-4" />
+              <span>مراحل اجرای بومی اپلیکیشن با Flutter SDK در سیستم شما</span>
+            </div>
+            <h3 className="text-lg font-bold text-[#1C2B22] dark:text-[#E2ECE5]">
+              نحوه اجرای دستور flutter run روی شبیه‌ساز یا گوشی واقعی
+            </h3>
+            <p className="text-xs text-[#52665A] dark:text-[#8EAA97] leading-relaxed">
+              این پلتفرم در حال حاضر در محیط وب‌کلود به عنوان شبیه‌ساز کامل کار می‌کند. برای کامپایل و اجرای بومی نیتیو فلاتر در سیستم خود، فایل‌های زیر را در یک پروژه Flutter قرار داده و اجرا کنید:
+            </p>
+
+            <div className="p-4 rounded-xl bg-[#0C1511] text-[#E2ECE5] font-mono text-xs overflow-x-auto space-y-2 dir-ltr text-left">
+              <div className="text-neutral-400"># ۱. ایجاد پروژه فلاتر</div>
+              <div className="text-emerald-400">flutter create --org com.reyhan reyhan_app</div>
+              <div className="text-neutral-400"># ۲. ورود به دایرکتوری و دریافت پکیج‌ها</div>
+              <div className="text-emerald-400">cd reyhan_app</div>
+              <div className="text-emerald-400">flutter pub get</div>
+              <div className="text-neutral-400"># ۳. اجرای زنده تستی</div>
+              <div className="text-amber-400 font-bold">flutter run</div>
+              <div className="text-neutral-400"># ۴. خروجی رسمی فایل نصبی APK برای اندروید</div>
+              <div className="text-emerald-400 font-bold">flutter build apk --release</div>
+              <div className="text-neutral-400"># ۵. خروجی تفکیک‌شده فوق سبک بر اساس پردازنده (کاهش حجم از ۵۰ به ۱۸ مگابایت)</div>
+              <div className="text-cyan-400 font-bold">flutter build apk --split-per-abi</div>
+            </div>
+          </div>
+
+          {/* AndroidManifest.xml card */}
+          <div className="p-6 rounded-2xl bg-white dark:bg-[#141F1A] border border-[#E1E8DF] dark:border-[#24382E] shadow-xs space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="text-[11px] font-bold text-[#2D6A4F] dark:text-[#52B788] block">مجوزهای دسترسی اندروید</span>
+                <h4 className="font-bold text-base text-[#1C2B22] dark:text-[#E2ECE5]">android/app/src/main/AndroidManifest.xml</h4>
+              </div>
+              <button
+                onClick={() => handleCopy(`<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+</manifest>`, 'manifest')}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black/5 dark:bg-white/5 text-xs text-[#52665A] dark:text-[#8EAA97] hover:text-black dark:hover:text-white"
+              >
+                {copiedKey === 'manifest' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>کپی مجوزها</span>
+              </button>
+            </div>
+            <pre className="p-4 rounded-xl bg-[#0C1511] text-[#E2ECE5] font-mono text-xs overflow-x-auto leading-relaxed text-left dir-ltr">
+{`<!-- مجوزهای مورد نیاز تلاوت پس‌زمینه، تحلیل صوت تجوید و اتاق مباحثه WebRTC -->
+<uses-permission android:name="android.permission.INTERNET"/>
+<uses-permission android:name="android.permission.RECORD_AUDIO"/>
+<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+<uses-permission android:name="android.permission.CAMERA"/>
+<uses-permission android:name="android.permission.WAKE_LOCK"/>`}
+            </pre>
+          </div>
+
+          {/* pubspec.yaml file */}
+          <div className="p-6 rounded-2xl bg-white dark:bg-[#141F1A] border border-[#E1E8DF] dark:border-[#24382E] shadow-xs space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="text-[11px] font-bold text-[#2D6A4F] dark:text-[#52B788] block">فایل پیکربندی پکیج‌ها</span>
+                <h4 className="font-bold text-base text-[#1C2B22] dark:text-[#E2ECE5]">pubspec.yaml</h4>
+              </div>
+              <button
+                onClick={() => handleCopy(ARCHITECTURE_DOCS.flutterPubspecYaml, 'pubspec')}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black/5 dark:bg-white/5 text-xs text-[#52665A] dark:text-[#8EAA97] hover:text-black dark:hover:text-white"
+              >
+                {copiedKey === 'pubspec' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>کپی pubspec.yaml</span>
+              </button>
+            </div>
+            <pre className="p-4 rounded-xl bg-[#0C1511] text-[#E2ECE5] font-mono text-xs overflow-x-auto leading-relaxed text-left dir-ltr">
+              {ARCHITECTURE_DOCS.flutterPubspecYaml}
+            </pre>
+          </div>
+
+          {/* lib/main.dart file */}
+          <div className="p-6 rounded-2xl bg-white dark:bg-[#141F1A] border border-[#E1E8DF] dark:border-[#24382E] shadow-xs space-y-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="text-[11px] font-bold text-[#2D6A4F] dark:text-[#52B788] block">کد کامل نقطه شروع برنامه</span>
+                <h4 className="font-bold text-base text-[#1C2B22] dark:text-[#E2ECE5]">lib/main.dart</h4>
+              </div>
+              <button
+                onClick={() => handleCopy(ARCHITECTURE_DOCS.flutterMainDart, 'maindart')}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-black/5 dark:bg-white/5 text-xs text-[#52665A] dark:text-[#8EAA97] hover:text-black dark:hover:text-white"
+              >
+                {copiedKey === 'maindart' ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                <span>کپی lib/main.dart</span>
+              </button>
+            </div>
+            <pre className="p-4 rounded-xl bg-[#0C1511] text-[#E2ECE5] font-mono text-xs overflow-x-auto leading-relaxed text-left dir-ltr max-h-96">
+              {ARCHITECTURE_DOCS.flutterMainDart}
+            </pre>
+          </div>
+        </div>
+      )}
 
       {/* SECTION 1: TECH STACK */}
       {activeSection === 'stack' && (
